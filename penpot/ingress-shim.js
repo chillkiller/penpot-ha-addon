@@ -7,10 +7,21 @@
   var BASE = p.endsWith('/') ? p : p + '/';
 
   function fix(u) {
-    if (typeof u !== 'string') return u;
-    if (u.charAt(0) !== '/') return u;   // relativ → Browser-Basis übernimmt Präfix
-    if (u.charAt(1) === '/') return u;   // protokoll-relativ
-    return BASE + u.slice(1);
+    if (typeof u !== 'string' || !u) return u;
+    if (u.charAt(0) === '/') {
+      if (u.charAt(1) === '/') return u; // protokoll-relativ: origin bleibt, pfad verliert praefix -> umschreiben
+      return BASE + u.slice(1);          // absoluter pfad
+    }
+    // voll absolute URL derselben origin? -> praefix in pfad einsetzen
+    try {
+      var x = new URL(u, window.location.href);
+      if (x.origin === window.location.origin) {
+        if (x.pathname === BASE || x.pathname.startsWith(BASE)) return x.toString();
+        x.pathname = BASE.replace(/\/$/, '') + x.pathname;
+        return x.toString();
+      }
+      return u;
+    } catch (e) { return u; }
   }
 
   // fetch
