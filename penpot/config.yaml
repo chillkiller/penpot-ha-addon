@@ -1,11 +1,12 @@
 name: Penpot
-version: "0.2.10"
+version: "0.2.11"
 slug: penpot
 description: Penpot design platform (full stack in add-on container, Debian basis)
 url: https://penpot.app
 arch: [aarch64]
 startup: services
 init: false
+mem_limit: "4g"
 legacy: false
 panel_icon: mdi:palette
 panel_title: Penpot
