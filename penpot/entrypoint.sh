@@ -52,7 +52,8 @@ done
 psql -h 127.0.0.1 -p 5433 -U penpot -d postgres -c 'CREATE DATABASE penpot OWNER penpot' >/dev/null 2>&1 || true
 
 # --- 2) Redis ---
-echo "[penpot] 2/5 startet Redis (127.0.0.1:6380)"redis-server --port 6380 --daemonize yes --save "" --appendonly no --dir /tmp
+echo "[penpot] 2/5 startet Redis (127.0.0.1:6380)"
+redis-server --port 6380 --daemonize yes --save "" --appendonly no --dir /tmp
 until redis-cli -p 6380 ping 2>/dev/null | grep -q PONG; do sleep 0.5; done
 
 # --- 3)Frontend-JS-Flags injecten (wie offizieller nginx-entrypoint.sh) ---
