@@ -7,3 +7,10 @@ frontend/js/shared.js
 frontend/js/worker/main.js
 frontend/js/main.js
 *.min.js
+# Große Asset-Ausnahmen (alle im penpotapp/frontend-Image vorhandene Binaries/Maps):
+frontend/js/*.map
+frontend/js/main-workspace.js
+frontend/js/main-workspace.js.map
+frontend/js/render-wasm.wasm
+frontend/fonts/fonts-preview-sprite.svg
+frontend/js/worker/main.js.map
