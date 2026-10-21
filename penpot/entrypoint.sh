@@ -52,8 +52,7 @@ done
 psql -h 127.0.0.1 -p 5433 -U penpot -d postgres -c 'CREATE DATABASE penpot OWNER penpot' >/dev/null 2>&1 || true
 
 # --- 2) Redis ---
-echo "[penpot] 2/5 startet Redis (127.0.0.1:6380)"
-redis-server --port 6380 --daemonize yes --save "" --appendonly no --dir /tmp
+echo "[penpot] 2/5 startet Redis (127.0.0.1:6380)"redis-server --port 6380 --daemonize yes --save "" --appendonly no --dir /tmp
 until redis-cli -p 6380 ping 2>/dev/null | grep -q PONG; do sleep 0.5; done
 
 # --- 3)Frontend-JS-Flags injecten (wie offizieller nginx-entrypoint.sh) ---
@@ -73,6 +72,12 @@ if [ -s "$SHIM" ]; then
   if ! grep -q "ingress-shim" /usr/share/nginx/html/app/index.html; then
     sed -i 's|<head>|<head>\n<script src="./js/ingress-shim.js"></script><!-- ingress-shim -->|' /usr/share/nginx/html/app/index.html
   fi
+fi
+
+# --- config.js-Template für den sub_filter-Public-URI-Ingress-Fix (penpot-issue#7384) ---
+CFG=/usr/share/nginx/html/app/js/config.js
+if [ -s "$CFG" ] && ! grep -q 'penpotPublicURI' "$CFG"; then
+  printf '\n//var penpotPublicURI = "";\n' >> "$CFG"
 fi
 
 # --- 4) Backend (JVM :6060), Exporter (:6061), MCP (:4401/:4402) ---
