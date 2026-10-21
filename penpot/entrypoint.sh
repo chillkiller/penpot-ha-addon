@@ -67,6 +67,10 @@ export PATH="$JAVA_HOME/bin:$PATH"
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-/opt/imagick/lib/deps}"
 export JAVA_OPTS="-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager -Dlog4j2.configurationFile=log4j2.xml -XX:-OmitStackTraceInFastThrow --sun-misc-unsafe-memory-access=allow --enable-native-access=ALL-UNNAMED --enable-preview"
 
+# MCP bindet auf [::1] — Backend muss dasselbe (und nginx braucht ein echtes iface):
+export PENPOT_MCP_SERVER_HOST="0.0.0.0"
+export NODE_OPTIONS="--dns-result-order=ipv4first"
+
 echo "[penpot] 3/5 startet Backend (JVM, 127.0.0.1:6060)"
 cd "$BACKEND_DIR"
 java $JAVA_OPTS -jar penpot.jar -m app.main >> /var/log/penpot/backend.log 2>&1 &
