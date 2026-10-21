@@ -74,15 +74,22 @@ BACKEND_PID=$!
 cd /
 
 echo "[penpot] 4/5 startet Exporter (127.0.0.1:6061)"
-unset PENPOT_PUBLIC_URI 2>/dev/null || true
 cd "$EXPORTER_DIR"
-PENPOT_INTERNAL_URI=http://127.0.0.1:9001 node app.js >> /var/log/penpot/exporter.log 2>&1 &
+PENPOT_BACKEND_URI=\"http://127.0.0.1:6060\" \\
+PENPOT_EXPORTER_URI=\"http://127.0.0.1:6061\" \\
+PENPOT_INTERNAL_URI=\"${PENPOT_INTERNAL_URI:-http://127.0.0.1:9001}\" \\
+PENPOT_REDIS_URI=\"${PENPOT_REDIS_URI:-redis://127.0.0.1:6380/0}\" \\
+PENPOT_PUBLIC_URI=\"${PENPOT_PUBLIC_URI:-http://127.0.0.1:9001}\" \\
+node app.js >> /var/log/penpot/exporter.log 2>&1 &
 EXPORTER_PID=$!
 cd /
 
 echo "[penpot] startet MCP (127.0.0.1:4401/4402)"
 cd "$MCP_DIR"
-PENPOT_MCP_REDIS_URI="${PENPOT_MCP_REDIS_URI:-redis://127.0.0.1:6380/0}" node index.js --multi-user >> /var/log/penpot/mcp.log 2>&1 &
+PENPOT_MCP_REDIS_URI="${PENPOT_MCP_REDIS_URI:-redis://127.0.0.1:6380/0}" \
+PENPOT_MCP_SERVER_PORT="${PENPOT_MCP_SERVER_PORT:-4401}" \\
+PENPOT_MCP_WEBSOCKET_PORT="${PENPOT_MCP_WEBSOCKET_PORT:-4402}" \\
+node index.js --multi-user >> /var/log/penpot/mcp.log 2>&1 &
 MCP_PID=$!
 cd /
 
