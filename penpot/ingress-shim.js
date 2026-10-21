@@ -8,11 +8,13 @@
 
   function fix(u) {
     if (typeof u !== 'string' || !u) return u;
+    // IDEMPOTENZ: bereits mit Präfix versehen? → unverändert (doppelte Umschreibung vermeiden)
+    if (BASE !== '/' && (u === BASE || (u + '/').indexOf(BASE) === 0)) return u;
     if (u.charAt(0) === '/') {
-      if (u.charAt(1) === '/') return u; // protokoll-relativ: origin bleibt, pfad verliert praefix -> umschreiben
+      if (u.charAt(1) === '/') return u; // protokoll-relativ: origin bleibt
       return BASE + u.slice(1);          // absoluter pfad
     }
-    // voll absolute URL derselben origin? -> praefix in pfad einsetzen
+    // voll absolute URL derselben origin? → Präfix in pfad einsetzen
     try {
       var x = new URL(u, window.location.href);
       if (x.origin === window.location.origin) {
