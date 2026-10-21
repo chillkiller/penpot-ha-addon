@@ -1,0 +1,9 @@
+[
+  {
+    "slug": "penpot",
+    "name": "Penpot",
+    "url": "https://penpot.app",
+    "maintainer": "chillkiller",
+    "description": "Penpot design platform (full stack: postgres/redis/backend/nginx) — self-hosted in Home Assistant"
+  }
+]
