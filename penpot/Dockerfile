@@ -10,7 +10,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
     postgresql-17 postgresql-contrib postgresql-client \
     redis-server \
-    curl ca-certificates bash procps iproute2 tini \
+    nginx \
+    curl ca-certificates bash procps iproute2 tini xz-utils \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Java 21 (penpot.jar braucht JDK21 — Debian openjdk-21):
