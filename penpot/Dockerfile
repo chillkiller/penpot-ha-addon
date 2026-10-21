@@ -1,4 +1,4 @@
-ARG BUILD_FROM="ghcr.io/hassio/base-aarch64:latest"
+ARG BUILD_FROM="debian:trixie-slim"
 # Weg-D (GaRoN 10:30): HÀ-konform — Penpot-Layer kommen aus den OFFIZIELLEN
 # penpotapp-Images (multi-stage): backend (JVM + jar + templates), frontend
 # (nginx + assets). KEINE Binaries im Git-Tree.
