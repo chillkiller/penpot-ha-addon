@@ -1,5 +1,5 @@
 name: Penpot
-version: "0.2.20"
+version: "0.2.21"
 slug: penpot
 description: Penpot design platform (full stack in add-on container, Debian basis)
 url: https://penpot.app
@@ -18,14 +18,14 @@ ports:
   "9001/tcp": 9010
   "6060/tcp": null
   "6061/tcp": null
-  "4401/tcp": null
-  "4402/tcp": null
+  "4401/tcp": 4401
+  "4402/tcp": 4402
 ports_description:
   "9001/tcp": Penpot frontend UI (ingress + LAN; Host-Port, kein Konflikt mit :9001)
   "6060/tcp": Backend HTTP (intern)
   "6061/tcp": Exporter (intern)
-  "4401/tcp": MCP HTTP (intern)
-  "4402/tcp": MCP WebSocket (intern)
+  "4401/tcp": MCP HTTP — Agent-Zugriff (LAN)
+  "4402/tcp": MCP WebSocket-Bridge (LAN)
 map:
   - data:rw
 environment:
