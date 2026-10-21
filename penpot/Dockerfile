@@ -31,23 +31,10 @@ COPY --from=penpot-frontend /var/www/app /usr/share/nginx/html/app
 # Exporter (PNG/SVG/PDF-Export): node 24.20 + Playwright-Browser + native Libs
 COPY --from=penpot-exporter /opt/penpot/exporter /opt/penpot/exporter
 COPY --from=penpot-exporter /opt/penpot/browsers /opt/penpot/browsers
-# Node-Runtime + Native-Deps vom Exporter/MCP-Node-Image (node lebt in /usr/bin,
-# Libs in /usr/lib — nur gezielt mergen, debian-Basis bleibt intakt):
+# Node-Runtime + komplette Userspace-Lib-Disziplin vom exporter-Image:
+# (Exporters-Playwright braucht viele GTK/NSS/ICU/Libs — nur Debian-Basisintakt lassen.)
 COPY --from=penpot-exporter /usr/bin/node /usr/bin/node
-COPY --from=penpot-exporter /usr/lib/aarch64-linux-gnu/libnode.so* /usr/lib/aarch64-linux-gnu/
-COPY --from=penpot-exporter /usr/lib/aarch64-linux-gnu/libnss3.so* /usr/lib/aarch64-linux-gnu/
-COPY --from=penpot-exporter /usr/lib/aarch64-linux-gnu/libnssutil3.so* /usr/lib/aarch64-linux-gnu/
-COPY --from=penpot-exporter /usr/lib/aarch64-linux-gnu/libsmime3.so* /usr/lib/aarch64-linux-gnu/
-COPY --from=penpot-exporter /usr/lib/aarch64-linux-gnu/libssl3.so* /usr/lib/aarch64-linux-gnu/
-COPY --from=penpot-exporter /usr/lib/aarch64-linux-gnu/libplc4.so* /usr/lib/aarch64-linux-gnu/
-COPY --from=penpot-exporter /usr/lib/aarch64-linux-gnu/libplds4.so* /usr/lib/aarch64-linux-gnu/
-COPY --from=penpot-exporter /usr/lib/aarch64-linux-gnu/libsoftokn3.so* /usr/lib/aarch64-linux-gnu/
-COPY --from=penpot-exporter /usr/lib/aarch64-linux-gnu/libfreeblpriv3.so* /usr/lib/aarch64-linux-gnu/
-COPY --from=penpot-exporter /usr/lib/aarch64-linux-gnu/libnspr4.so* /usr/lib/aarch64-linux-gnu/
-COPY --from=penpot-exporter /usr/lib/aarch64-linux-gnu/libicu*.so* /usr/lib/aarch64-linux-gnu/
-COPY --from=penpot-exporter /usr/lib/aarch64-linux-gnu/libjpeg* /usr/lib/aarch64-linux-gnu/
-COPY --from=penpot-exporter /usr/lib/aarch64-linux-gnu/libpng* /usr/lib/aarch64-linux-gnu/
-COPY --from=penpot-exporter /usr/lib/aarch64-linux-gnu/libsharp-* /usr/lib/aarch64-linux-gnu/ || true
+COPY --from=penpot-exporter /usr/lib/aarch64-linux-gnu/ /usr/lib/aarch64-linux-gnu/
 COPY --from=penpot-exporter /usr/share/fonts /usr/share/fonts
 
 # MCP (HTTP :4401 + WebSocket :4402, gleiche Node-Version 24.20 wie Exporter):
