@@ -1,0 +1,9 @@
+# Binaries/Build-Artefakte — kommen aus den offiziellen penpotapp-Images im Dockerfile (FROM-Konvention, GaRoN 10:30):
+backend/penpot.jar
+backend/builtin-templates/
+backend/log4j2.xml
+frontend/js/shared.js.map
+frontend/js/shared.js
+frontend/js/worker/main.js
+frontend/js/main.js
+*.min.js
