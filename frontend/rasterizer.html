@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Penpot - Rasterizer</title>
+    <link rel="icon" href="images/favicon.png?version=2.18.3-1791289595" />
+
+    <script>
+      globalThis.penpotVersion = "2.18.3";
+      globalThis.penpotVersionTag = "2.18.3-1791289595";
+      globalThis.penpotBuildDate = "Tue, 06 Oct 2026 12:26:35 +0000";
+    </script>
+
+    <script src="./js/config.js?version=2.18.3-1791289595"></script>
+    <script src="./js/polyfills.js?version=2.18.3-1791289595"></script>
+    <script type="importmap">{"imports":{"./js/shared.js":"./js/shared.js?version=2.18.3-1791289595","./js/main.js":"./js/main.js?version=2.18.3-1791289595","./js/render.js":"./js/render.js?version=2.18.3-1791289595","./js/render-wasm.js":"./js/render-wasm.js?version=2.18.3-1791289595","./js/rasterizer.js":"./js/rasterizer.js?version=2.18.3-1791289595","./js/main-dashboard.js":"./js/main-dashboard.js?version=2.18.3-1791289595","./js/main-auth.js":"./js/main-auth.js?version=2.18.3-1791289595","./js/main-viewer.js":"./js/main-viewer.js?version=2.18.3-1791289595","./js/main-settings.js":"./js/main-settings.js?version=2.18.3-1791289595","./js/main-workspace.js":"./js/main-workspace.js?version=2.18.3-1791289595","./js/util-highlight.js":"./js/util-highlight.js?version=2.18.3-1791289595"}}</script>
+  </head>
+  <body>
+    <script type="module" src="./js/libs.js?version=2.18.3-1791289595"></script>
+    <script type="module">
+      import { init } from "./js/rasterizer.js";
+      init();
+    </script>
+  </body>
+</html>
