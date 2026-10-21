@@ -1,16 +1,10 @@
-# Binaries/Build-Artefakte — kommen aus den offiziellen penpotapp-Images im Dockerfile (FROM-Konvention, GaRoN 10:30):
-backend/penpot.jar
-backend/builtin-templates/
-backend/log4j2.xml
-frontend/js/shared.js.map
-frontend/js/shared.js
-frontend/js/worker/main.js
-frontend/js/main.js
-*.min.js
-# Große Asset-Ausnahmen (alle im penpotapp/frontend-Image vorhandene Binaries/Maps):
-frontend/js/*.map
-frontend/js/main-workspace.js
-frontend/js/main-workspace.js.map
-frontend/js/render-wasm.wasm
-frontend/fonts/fonts-preview-sprite.svg
-frontend/js/worker/main.js.map
+# Binaries/Assets aus den penpotapp-Images — im Build per multi-stage-FROM geholt (GaRoN 10:30):
+penpot/backend/penpot.jar
+penpot/backend/builtin-templates/
+penpot/backend/log4j2.xml
+penpot/frontend/js/*.map
+penpot/frontend/js/shared.js
+penpot/frontend/js/main-workspace.js
+penpot/frontend/js/render-wasm.wasm
+penpot/frontend/fonts/fonts-preview-sprite.svg
+penpot/frontend/fonts/*.ttf
