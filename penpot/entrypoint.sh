@@ -61,6 +61,20 @@ if [ -n "$PENPOT_FLAGS" ]; then
   sed -i "s|^//var penpotFlags = .*|var penpotFlags = \"$PENPOT_FLAGS\";|" /usr/share/nginx/html/app/js/config.js || true
 fi
 
+
+# --- Frontend-Ingress-Shim (fetch/XHR/WS auf Ingress-Präfix umschreiben) ---
+SHIM=/usr/share/nginx/html/app/js/ingress-shim.js
+cp "$(dirname "$0")/ingress-shim.js" "$SHIM" 2>/dev/null || true
+if [ ! -s "$SHIM" ]; then
+  # fallback: shim liegt im build unter /opt/penpot/addon/
+  cp /opt/penpot/addon/ingress-shim.js "$SHIM" 2>/dev/null || true
+fi
+if [ -s "$SHIM" ]; then
+  if ! grep -q "ingress-shim" /usr/share/nginx/html/app/index.html; then
+    sed -i 's|<head>|<head>\n<script src="./js/ingress-shim.js"></script><!-- ingress-shim -->|' /usr/share/nginx/html/app/index.html
+  fi
+fi
+
 # --- 4) Backend (JVM :6060), Exporter (:6061), MCP (:4401/:4402) ---
 export JAVA_HOME=/opt/jre
 export PATH="$JAVA_HOME/bin:$PATH"

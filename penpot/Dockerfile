@@ -45,6 +45,8 @@ COPY frontend-nginx/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY frontend-nginx/etc/nginx/nginx-security-headers.conf /etc/nginx/nginx-security-headers.conf
 COPY frontend-nginx/etc/nginx/conf.d/ /etc/nginx/conf.d/
 COPY frontend-nginx/etc/nginx/overrides/ /etc/nginx/overrides/
+# Ingress-Shim (fetch/XHR/WS-Umschreibung für HA-Ingress-Pfad):
+COPY ingress-shim.js /opt/penpot/addon/ingress-shim.js
 COPY entrypoint.sh /entrypoint.sh
 COPY run.sh /run.sh
 
