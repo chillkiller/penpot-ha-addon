@@ -1,23 +1,30 @@
 name: Penpot
-version: "0.2.0"
+version: "0.2.1"
 slug: penpot
 description: Penpot design platform (full stack in add-on container, Debian basis)
 url: https://penpot.app
 arch: [aarch64]
 startup: services
 init: false
+legacy: false
 panel_icon: mdi:palette
 panel_title: Penpot
 panel_admin: false
 ingress: true
-# Frontend UI via ports (LAN + Nabu via ingress)
+watchdog: http://[HOST]:9010/readyz
+watchdog_timeout: 90
 ports:
-  "9001/tcp": 9001
+  "9001/tcp": 9010
   "6060/tcp": null
   "6061/tcp": null
+  "4401/tcp": null
+  "4402/tcp": null
 ports_description:
-  "9001/tcp": Penpot frontend UI (ingress + LAN)
+  "9001/tcp": Penpot frontend UI (ingress + LAN; Host-Port, kein Konflikt mit :9001)
   "6060/tcp": Backend HTTP (intern)
+  "6061/tcp": Exporter (intern)
+  "4401/tcp": MCP HTTP (intern)
+  "4402/tcp": MCP WebSocket (intern)
 map:
   - data:rw
 environment:
@@ -25,8 +32,7 @@ environment:
   PENPOT_DATABASE_URI: "postgresql://127.0.0.1:5433/penpot"
   PENPOT_DATABASE_USERNAME: penpot
   PENPOT_REDIS_URI: "redis://127.0.0.1:6380/0"
-  PENPOT_PUBLIC_URI: "http://localhost:9001"
-  PENPOT_ASSETS_STORAGE_BACKEND: local
-  PENPOT_ASSETS_STORAGE_LOCAL_DIR: /data/penpot/assets
+# Same-origin: bewusst KEIN PENPOT_PUBLIC_URI (verifiziert: Bundles nutzen location.origin)
 schema:
   penpot_flags: str?
+  secret_key: str?

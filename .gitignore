@@ -1,10 +1,7 @@
-# Binaries/Assets aus den penpotapp-Images — im Build per multi-stage-FROM geholt (GaRoN 10:30):
-penpot/backend/penpot.jar
-penpot/backend/builtin-templates/
-penpot/backend/log4j2.xml
-penpot/frontend/js/*.map
-penpot/frontend/js/shared.js
-penpot/frontend/js/main-workspace.js
-penpot/frontend/js/render-wasm.wasm
-penpot/frontend/fonts/fonts-preview-sprite.svg
-penpot/frontend/fonts/*.ttf
+# Binaries/Assets kommen aus den offiziellen penpotapp-Images (Multi-Stage-COPY
+# im Dockerfile) — hier im Repo liegt nur Add-on-Glue-Code, keine Mirror-Dateien:
+penpot/backend/
+penpot/frontend/
+# Secrets niemals einchecken:
+.penpot-db-secret
+*.secret
