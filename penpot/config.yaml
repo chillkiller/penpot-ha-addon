@@ -1,5 +1,5 @@
 name: Penpot
-version: "0.2.22"
+version: "0.2.23"
 slug: penpot
 description: Penpot design platform (full stack in add-on container, Debian basis)
 url: https://penpot.app
@@ -16,6 +16,7 @@ watchdog: http://[HOST]:9010/readyz
 watchdog_timeout: 90
 ports:
   "9001/tcp": 9010
+  "9443/tcp": 9443
   "6060/tcp": null
   "6061/tcp": null
   "4401/tcp": 4401

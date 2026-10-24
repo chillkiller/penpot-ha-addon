@@ -117,6 +117,19 @@ node index.js --multi-user >> /var/log/penpot/mcp.log 2>&1 &
 MCP_PID=$!
 cd /
 
+# --- 4b) HTTPS (Weg C): self-signed Zertifikat mit SAN (IP + LAN-Name), idempotent ---
+CERT_DIR=/data/penpot/tls
+if [ ! -f "$CERT_DIR/penpot.crt" ] || [ ! -f "$CERT_DIR/penpot.key" ]; then
+  echo "[penpot] https: erzeuge self-signed Zertifikat (SAN: IP + hostname)"
+  mkdir -p "$CERT_DIR"
+  LAN_IP=$(hostname -i 2>/dev/null | awk '{print $1}')
+  [ -z "$LAN_IP" ] && LAN_IP="$(ip route get 1 2>/dev/null | awk '{for(i=1;i<=NF;i++) if($i=="src") print $(i+1)}')"
+  openssl req -x509 -newkey rsa:2048 -nodes -days 3650     -keyout "$CERT_DIR/penpot.key" -out "$CERT_DIR/penpot.crt"     -subj "/CN=penpot.local"     -addext "subjectAltName=IP:${LAN_IP:-192.0.2.10},DNS:penpot.local,DNS:localhost"     2>/dev/null
+  chmod 600 "$CERT_DIR/penpot.key"
+fi
+
+# --- 4c) TLS-Server-Block injizieren (listen 9443 ssl; HTTP-9010 bleibt parallel) ---
+# TLS-Server-Block lebt als eigene Datei: /etc/nginx/conf.d/penpot-tls.conf (im Repo)
 # --- 5) nginx (Vordergrund-PID 1-Kind; :9001) ---
 echo "[penpot] 5/5 startet nginx (0.0.0.0:9001)"
 nginx -g 'daemon off;' &
